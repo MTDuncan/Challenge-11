@@ -1,34 +1,29 @@
-const express = require('express');
-const router = express.Router();
-const store = require('../db/dataManagement');
+const router = require('express').Router();
+const store = require('../db/store');
 
-router.get('/api/notes', async (req, res) => {
-  try {
-    const notes = await getNotes();
-    res.json(notes);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
+// GET "/api/notes" responds with all notes from the database
+router.get('/notes', (req, res) => {
+  store
+    .getNotes()
+    .then((notes) => {
+      return res.json(notes);
+    })
+    .catch((err) => res.status(500).json(err));
 });
 
-router.post('/api/notes', async (req, res) => {
-  try {
-    const note = req.body;
-    const result = await saveNote(note);
-    res.json(result);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
+router.post('/notes', (req, res) => {
+  store
+    .addNote(req.body)
+    .then((note) => res.json(note))
+    .catch((err) => res.status(500).json(err));
 });
 
-router.delete('/api/notes/:id', async (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
-    await deleteNote(id);
-    res.sendStatus(200);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
+// DELETE "/api/notes" deletes the note with an id equal to req.params.id
+router.delete('/notes/:id', (req, res) => {
+  store
+    .removeNote(req.params.id)
+    .then(() => res.json({ ok: true }))
+    .catch((err) => res.status(500).json(err));
 });
 
 module.exports = router;

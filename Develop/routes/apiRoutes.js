@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getNotes, saveNote, deleteNote } = require('C:\Users\Matthew\Challenges_bootcamp\Challenge-11\Develop\db\dataManagement.js');
+const { getNotes, saveNote, deleteNote } = require('../db/dataManagement');
 
 router.get('/api/notes', async (req, res) => {
   try {

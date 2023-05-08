@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getNotes, saveNote, deleteNote } = require('./dataManagement');
+const { getNotes, saveNote, deleteNote } = require('..db/dataManagement');
 
 router.get('/api/notes', async (req, res) => {
   try {
